@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DudhAmrut: Smart Milk Traceability & Quality Monitoring</title>
+    <meta name="description" content="DudhAmrut is an IoT and Blockchain-powered platform ensuring milk purity, quality, and traceability from farm to consumer, ready for Avishkar.">
+    <meta name="keywords" content="Avishkar, DudhAmrut, Milk Traceability, Blockchain, IoT, Dairy Tech, FSSAI, University Innovation">
+    
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js and Datalabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Animate on Scroll (AOS) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'text-primary': '#1e293b',
+                        'text-secondary': '#475569',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --sky-blue: #2C7BE5;
+            --green: #00C48C;
+            --yellow: #FFD166;
+            --red: #ef4444;
+            --shadow-color: 220, 99%, 56%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            font-size: 16px; /* Slightly larger base for presentation */
+            line-height: 1.7; /* Improved readability */
+        }
+
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        .hero-bg {
+            background-color: #f8fafc;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 800px;
+            height: 800px;
+            background-image: radial-gradient(circle, rgba(44, 123, 229, 0.08), transparent 60%);
+            animation: pulse-light 10s infinite;
+            z-index: 0;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background-image: radial-gradient(circle, rgba(0, 196, 140, 0.08), transparent 60%);
+            animation: pulse-light 12s infinite reverse;
+            z-index: 0;
+        }
+
+        @keyframes pulse-light {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        .feature-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            border-color: var(--sky-blue);
+        }
+        
+        .glow-button {
+            box-shadow: 0 0 10px rgba(var(--shadow-color), 0), 0 0 0px rgba(var(--shadow-color), 0);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(var(--shadow-color), 0.5), 0 0 30px rgba(var(--shadow-color), 0.3);
+        }
+
+        .team-card img {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .team-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .award-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, transform 0.3s, color 0.3s;
+        }
+        .award-badge:hover {
+            background-color: var(--sky-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+        /* Target child elements on hover */
+        .award-badge:hover i {
+            color: white !important;
+        }
+        .award-badge:hover .award-badge-text {
+            color: white !important;
+        }
+        
+        .abstract-bg {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            background-image: linear-gradient(45deg, #fafcff 25%, transparent 25%), 
+                                linear-gradient(-45deg, #fafcff 25%, transparent 25%),
+                                linear-gradient(45deg, transparent 75%, #fafcff 75%),
+                                linear-gradient(-45deg, transparent 75%, #fafcff 75%);
+            background-size: 20px 20px;
+        }
+
+        /* Styles for active tab card and content panes */
+        .tab-card.tab-active {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            border-color: var(--sky-blue);
+        }
+        
+        /* Smooth transition for content swapping */
+        .tab-pane {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* NEW: Problem Card Styles */
+        .problem-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .problem-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .problem-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* 12px */
+        }
+        .problem-card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, margin-top 0.4s ease-out;
+            color: var(--text-secondary);
+        }
+        .problem-card.active {
+            border-color: var(--sky-blue);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            transform: translateY(-5px);
+        }
+        .problem-card.active .problem-card-content {
+            max-height: 100px; /* Adjust as needed */
+            margin-top: 1rem; /* 16px */
+        }
+        /* END: New Problem Card Styles */
+
+        /* Gradient Banner for Conclusion */
+        .gradient-banner {
+            background-image: linear-gradient(90deg, var(--sky-blue), var(--green));
+        }
+
+        /* Quick Nav Button */
+        .quick-nav {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 40; /* Lowered from 50 to be below sticky header */
+        }
+        .quick-nav-menu {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            margin-bottom: 0.75rem; /* 12px */
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .quick-nav:hover .quick-nav-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Header -->
+    <header id="header" class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <i data-lucide="droplets" class="w-8 h-8" style="color: var(--sky-blue);"></i>
+                <h1 class="text-2xl font-bold font-montserrat text-slate-800">DudhAmrut</h1>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="font-semibold text-slate-600 hover:text-sky-500 transition">Problem</a>
+                <a href="#features" class="font-semibold text-slate-600 hover:text-sky-500 transition">Features</a>
+                <a href="#impact" class="font-semibold text-slate-600 hover:text-sky-500 transition">Impact</a>
+                <a href="#team" class="font-semibold text-slate-600 hover:text-sky-500 transition">Team</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                 <a href="#demo" class="hidden sm:inline-block font-semibold px-5 py-2 rounded-full transition-transform hover:scale-105 glow-button bg-sky-500 text-white">View Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg relative">
+            <!-- Optimized padding for 1366x768 presentation -->
+            <div class="container mx-auto px-6 py-24 md:py-32 text-center relative z-10">
+                <div data-aos="fade-up">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat text-slate-900 leading-tight">
+                        Transforming India’s Dairy Chain with <span style="color: var(--sky-blue);">Transparency</span>, Technology & Trust.
+                    </h1>
+                    <!-- Increased font size for better readability -->
+                    <p class="mt-6 max-w-4xl mx-auto text-xl md:text-2xl text-text-secondary">
+                        IoT and Blockchain-powered traceability ensuring purity from every drop.
+                    </p>
+                    <a href="#features" class="mt-8 inline-block text-white font-semibold px-8 py-3 rounded-full text-lg transition-transform hover:scale-105 shadow-lg glow-button bg-sky-500">
+                        Know More
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Results Summary Bar -->
+        <section class="bg-white border-b border-t border-border-color">
+            <div class="container mx-auto px-6 py-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div data-aos="fade-up" data-aos-delay="0">
+                        <i data-lucide="target" class="w-12 h-12 mx-auto" style="color: var(--green);"></i>
+                        <h3 class="text-4xl font-bold text-slate-800 mt-2">95%</h3>
+                        <p class="text-text-secondary font-medium">Quality Test Accuracy</p>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <i data-lucide="trending-down" class="w-12 h-12 mx-auto" style="color: var(--red);"></i>
+                        <h3 class="text-4xl font-bold text-slate-800 mt-2">80%</h3>
+                        <p class="text-text-secondary font-medium">Spoilage Reduction</p>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="trending-up" class="w-12 h-12 mx-auto" style="color: var(--sky-blue);"></i>
+                        <h3 class="text-4xl font-bold text-slate-800 mt-2">+40%</h3>
+                        <p class="text-text-secondary font-medium">Farmer Income Growth</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12" data-aos="fade-up"> <!-- Adjusted margin -->
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">The Problem We Solve</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-text-secondary">India produces 23% of global milk, yet faces critical issues that threaten public health and farmer livelihoods.</p>
+                </div>
+
+                <!-- NEW: Interactive Problem Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1: Adulteration -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="shield-alert" class="w-6 h-6 text-red-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">Rampant Adulteration</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            <strong>68% of samples are unsafe (FSSAI, 2022).</strong> This directly threatens public health and consumer trust.
+                        </div>
+                    </div>
+                    <!-- Card 2: No Traceability -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="250">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="search-slash" class="w-6 h-6 text-yellow-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">No Traceability</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            The origin of contamination is untraceable in the current opaque supply chain, making recalls impossible.
+                        </div>
+                    </div>
+                    <!-- Card 3: Spoilage -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="trash-2" class="w-6 h-6 text-red-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">High Spoilage</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            <strong>~20% of milk is wasted</strong> due to poor cold chain management and lack of real-time temperature monitoring.
+                        </div>
+                    </div>
+                    <!-- Card 4: Health Risk -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="heart-pulse" class="w-6 h-6 text-red-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">Major Health Risks</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            An estimated <strong>57% of people</strong> are affected by milk-borne diseases, a direct result of poor quality control.
+                        </div>
+                    </div>
+                    <!-- Card 5: Low Compliance -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="250">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="file-x" class="w-6 h-6 text-yellow-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">Low FSSAI Compliance</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            Dairies struggle with the manual, paper-based tracking required for FSSAI traceability norms.
+                        </div>
+                    </div>
+                    <!-- Card 6: Consumer Distrust -->
+                    <div class="problem-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="problem-card-header">
+                            <div class="problem-card-title">
+                                <i data-lucide="eye-off" class="w-6 h-6 text-slate-500"></i>
+                                <h3 class="font-semibold text-lg text-text-primary">Consumer Distrust</h3>
+                            </div>
+                            <i data-lucide="plus" class="toggle-icon w-6 h-6 text-slate-400"></i>
+                        </div>
+                        <div class="problem-card-content">
+                            Consumers have no access to verified quality data, leading to widespread distrust in packaged milk.
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Interactive Problem Grid -->
+
+                <!-- "Our Solution" Box - MOVED DOWN -->
+                <div class="max-w-4xl mx-auto bg-slate-50 border-l-4 rounded-r-lg p-6 md:p-8 mt-16 shadow-lg" style="border-color: var(--sky-blue);" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="font-bold text-text-primary mb-2 text-xl">Our Solution:</h3>
+                    <p class="text-text-secondary text-lg">DudhAmrut is an IoT and Blockchain-powered platform providing end-to-end traceability and real-time quality monitoring of milk. Our system ensures every drop from the farm to the consumer is safe, pure, and verified.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- REVISED: Mission & Vision + Core Values Section -->
+        <section id="mission-and-values" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <!-- Wrapper grid -->
+                <div class="grid md:grid-cols-2 gap-16 items-start">
+                    
+                    <!-- Left Column: Dynamic Content Area -->
+                    <div data-aos="fade-right" class="relative min-h-[250px]">
+                        <!-- Default Content: Mission & Vision -->
+                        <div id="content-mission" class="tab-pane">
+                            <h2 class="text-3xl font-bold font-montserrat text-slate-800 mb-6">Our Mission & Vision</h2>
+                            <p class="text-text-secondary text-lg mb-4"><strong>Mission:</strong> Create a sustainable, transparent, and technology-driven dairy ecosystem.</p>
+                            <p class="text-text-secondary text-lg"><strong>Vision:</strong> Protect consumers, empower farmers, and transform dairies through innovation.</p>
+                        </div>
+                        
+                        <!-- Purity Content (Hidden by default) -->
+                        <div id="content-purity" class="tab-pane hidden">
+                            <div class="flex items-center mb-6">
+                                <div class="inline-block bg-sky-100 p-3 rounded-full mr-4"><i data-lucide="shield-check" class="w-8 h-8 text-sky-500"></i></div>
+                                <h2 class="text-3xl font-bold font-montserrat text-sky-500">Purity</h2>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">SNF % & FAT %</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">pH & Temperature</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Conductivity & Density</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Adulteration Indicators</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-sky-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Freshness Time Logging</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Trust Content (Hidden by default) -->
+                        <div id="content-trust" class="tab-pane hidden">
+                            <div class="flex items-center mb-6">
+                                <div class="inline-block bg-indigo-100 p-3 rounded-full mr-4"><i data-lucide="lock" class="w-8 h-8 text-indigo-500"></i></div>
+                                <h2 class="text-3xl font-bold font-montserrat text-indigo-500">Trust</h2>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Immutable Blockchain Storage</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Consumer QR Verification</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Farmer ID Validation</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Tamper-Proof Quality Records</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Traceable Batch ID</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Innovation Content (Hidden by default) -->
+                        <div id="content-innovation" class="tab-pane hidden">
+                            <div class="flex items-center mb-6">
+                                <div class="inline-block bg-green-100 p-3 rounded-full mr-4"><i data-lucide="lightbulb" class="w-8 h-8 text-green-500"></i></div>
+                                <h2 class="text-3xl font-bold font-montserrat text-green-500">Innovation</h2>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Real-Time IoT Sensors</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Decentralized Blockchain Integration</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">AI Anomaly Detection (Planned)</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Cloud Analytics Dashboard</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Modular & Scalable Design</span></li>
+                            </ul>
+                        </div>
+
+                        <!-- Sustainability Content (Hidden by default) -->
+                        <div id="content-sustainability" class="tab-pane hidden">
+                            <div class="flex items-center mb-6">
+                                <div class="inline-block bg-yellow-100 p-3 rounded-full mr-4"><i data-lucide="leaf" class="w-8 h-8 text-yellow-400"></i></div>
+                                <h2 class="text-3xl font-bold font-montserrat text-yellow-400">Sustainability</h2>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-yellow-400 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">~80% Spoilage Reduction</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-yellow-400 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Low-Power IoT Devices</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-yellow-400 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Reusable Sensor Probes</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-yellow-400 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">+40% Farmer Income Growth</span></li>
+                                <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-yellow-400 mr-3 flex-shrink-0 mt-1"></i><span class="text-text-secondary">Alignment with SDG 3, 8, & 12</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Core Value Cards (Tabs) -->
+                    <div class="grid grid-cols-2 gap-6" data-aos="fade-left">
+                        <!-- Purity Card -->
+                        <div class="tab-card text-center p-8 bg-white rounded-lg shadow-lg border-2 border-transparent cursor-pointer transition-all duration-300" data-tab-target="content-purity">
+                            <i data-lucide="shield-check" class="w-10 h-10 text-sky-500 mx-auto mb-3"></i>
+                            <h3 class="font-semibold text-lg">Purity</h3>
+                        </div>
+                        <!-- Trust Card -->
+                        <div class="tab-card text-center p-8 bg-white rounded-lg shadow-lg border-2 border-transparent cursor-pointer transition-all duration-300" data-tab-target="content-trust">
+                            <i data-lucide="lock" class="w-10 h-10 text-indigo-500 mx-auto mb-3"></i>
+                            <h3 class="font-semibold text-lg">Trust</h3>
+                        </div>
+                        <!-- Innovation Card -->
+                        <div class="tab-card text-center p-8 bg-white rounded-lg shadow-lg border-2 border-transparent cursor-pointer transition-all duration-300" data-tab-target="content-innovation">
+                            <i data-lucide="lightbulb" class="w-10 h-10 text-green-500 mx-auto mb-3"></i>
+                            <h3 class="font-semibold text-lg">Innovation</h3>
+                        </div>
+                        <!-- Sustainability Card -->
+                        <div class="tab-card text-center p-8 bg-white rounded-lg shadow-lg border-2 border-transparent cursor-pointer transition-all duration-300" data-tab-target="content-sustainability">
+                            <i data-lucide="leaf" class="w-10 h-10 text-yellow-400 mx-auto mb-3"></i>
+                            <h3 class="font-semibold text-lg">Sustainability</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features Section -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Key Features</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">Our platform integrates cutting-edge technologies to deliver unparalleled quality and transparency.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="0"><div class="inline-block bg-sky-100 p-3 rounded-full mb-4"><i data-lucide="thermometer" class="w-8 h-8 text-sky-500"></i></div><h3 class="font-bold text-lg mb-2">Real-time Quality Monitoring</h3><p class="text-sm text-text-secondary">Measures temperature, pH, and purity.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="100"><div class="inline-block bg-green-100 p-3 rounded-full mb-4"><i data-lucide="lock" class="w-8 h-8 text-green-500"></i></div><h3 class="font-bold text-lg mb-2">Blockchain Data Security</h3><p class="text-sm text-text-secondary">Immutable records for every milk batch.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="200"><div class="inline-block bg-yellow-100 p-3 rounded-full mb-4"><i data-lucide="qr-code" class="w-8 h-8 text-yellow-500"></i></div><h3 class="font-bold text-lg mb-2">QR-Based Consumer Transparency</h3><p class="text-sm text-text-secondary">Scan to view the verified journey.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="300"><div class="inline-block bg-sky-100 p-3 rounded-full mb-4"><i data-lucide="user-check" class="w-8 h-8 text-sky-500"></i></div><h3 class="font-bold text-lg mb-2">Farmer Authentication</h3><p class="text-sm text-text-secondary">Verifies sources for accountability.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="0"><div class="inline-block bg-red-100 p-3 rounded-full mb-4"><i data-lucide="siren" class="w-8 h-8 text-red-500"></i></div><h3 class="font-bold text-lg mb-2">Automated Spoilage Alerts</h3><p class="text-sm text-text-secondary">Instant notifications to reduce wastage.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="100"><div class="inline-block bg-green-100 p-3 rounded-full mb-4"><i data-lucide="clipboard-check" class="w-8 h-8 text-green-500"></i></div><h3 class="font-bold text-lg mb-2">FSSAI Compliance Dashboard</h3><p class="text-sm text-text-secondary">Real-time compliance reporting.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="200"><div class="inline-block bg-sky-100 p-3 rounded-full mb-4"><i data-lucide="cloud" class="w-8 h-8 text-sky-500"></i></div><h3 class="font-bold text-lg mb-2">Cloud Analytics</h3><p class="text-sm text-text-secondary">Enables data-driven optimization.</p></div>
+                    <div class="feature-card rounded-xl p-6 text-center" data-aos="fade-up" data-aos-delay="300"><div class="inline-block bg-yellow-100 p-3 rounded-full mb-4"><i data-lucide="brain-circuit" class="w-8 h-8 text-yellow-500"></i></div><h3 class="font-bold text-lg mb-2">AI Predictions</h3><p class="text-sm text-text-secondary">Predicts potential spoilage.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture Section (MOVED & RENAMED) -->
+        <section id="architecture" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">System Architecture</h2> <!-- Simplified Title -->
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">A high-level overview of our data flow, from farm to consumer.</p> <!-- Updated Subtitle -->
+                </div>
+                
+                <!-- NEW: Visual Architecture Flow -->
+                <div class="max-w-5xl mx-auto" data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-8 text-center">
+                        
+                        <!-- Step 1: Input -->
+                        <div class="flex flex-col items-center p-4">
+                            <div class="flex items-center justify-center bg-white rounded-full w-24 h-24 shadow-lg border-2 border-sky-100">
+                                <i data-lucide="cpu" class="w-12 h-12 text-sky-500"></i>
+                            </div>
+                            <h3 class="mt-4 font-semibold text-lg">1. Data Collection</h3>
+                            <p class="text-sm text-text-secondary">IoT sensors test milk & farmer data is collected.</p>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="hidden md:block">
+                            <i data-lucide="arrow-right" class="w-16 h-16 text-slate-300"></i>
+                        </div>
+                         <div class="block md:hidden">
+                            <i data-lucide="arrow-down" class="w-12 h-12 text-slate-300"></i>
+                        </div>
+
+                        <!-- Step 2: Processing -->
+                        <div class="flex flex-col items-center p-4">
+                            <div class="flex items-center justify-center bg-white rounded-full w-24 h-24 shadow-lg border-2 border-sky-100">
+                                <i data-lucide="cloud" class="w-12 h-12 text-sky-500"></i>
+                            </div>
+                            <h3 class="mt-4 font-semibold text-lg">2. Secure Gateway</h3>
+                            <p class="text-sm text-text-secondary">Data is sent to the cloud for processing & analysis.</p>
+                        </div>
+                        
+                        <!-- Arrow -->
+                        <div class="hidden md:block">
+                            <i data-lucide="arrow-right" class="w-16 h-16 text-slate-300"></i>
+                        </div>
+                         <div class="block md:hidden">
+                            <i data-lucide="arrow-down" class="w-12 h-12 text-slate-300"></i>
+                        </div>
+
+                        <!-- Step 3: Storage -->
+                        <div class="flex flex-col items-center p-4">
+                            <div class="flex items-center justify-center bg-white rounded-full w-24 h-24 shadow-lg border-2 border-green-100">
+                                <i data-lucide="link" class="w-12 h-12 text-green-500"></i>
+                            </div>
+                            <h3 class="mt-4 font-semibold text-lg">3. Blockchain Storage</h3>
+                            <p class="text-sm text-text-secondary">Verified data is stored immutably on the Blockchain.</p>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="hidden md:block">
+                            <i data-lucide="arrow-right" class="w-16 h-16 text-slate-300"></i>
+                        </div>
+                         <div class="block md:hidden">
+                            <i data-lucide="arrow-down" class="w-12 h-12 text-slate-300"></i>
+                        </div>
+
+                        <!-- Step 4: Application -->
+                        <div class="flex flex-col items-center p-4">
+                            <div class="flex items-center justify-center bg-white rounded-full w-24 h-24 shadow-lg border-2 border-yellow-100">
+                                <i data-lucide="qr-code" class="w-12 h-12 text-yellow-500"></i>
+                            </div>
+                            <h3 class="mt-4 font-semibold text-lg">4. Consumer Access</h3>
+                            <p class="text-sm text-text-secondary">Consumers scan a QR code to see the full, trusted report.</p>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- END: Visual Architecture Flow -->
+
+
+                <div class="max-w-4xl mx-auto mt-16" data-aos="fade-up" data-aos-delay="200">
+                    <!-- Tech Stack -->
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-700 mb-8 text-center">Our Technology Stack</h3>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-8">
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="cpu" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">IoT Sensors</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="link" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">Blockchain</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="brain" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">AI/ML</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="database" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">Cloud DB</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="wind" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">TailwindCSS</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="pie-chart" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">Chart.js</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="server" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">Node.js</p></div>
+                            <div class="text-center group p-4 rounded-lg transition hover:bg-slate-100"><i data-lucide="server" class="w-14 h-14 mx-auto text-slate-400 group-hover:text-sky-500 transition"></i><p class="mt-2 font-semibold">Flask</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Innovation & Novelty Section -->
+        <section id="innovation" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Innovation & Novelty</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">Our solution's uniqueness lies in its synergistic fusion of key technologies.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="0">
+                        <div class="inline-block bg-sky-100 p-3 rounded-full mb-4">
+                            <i data-lucide="combine" class="w-8 h-8 text-sky-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">IoT + Blockchain Fusion</h3>
+                        <p class="text-sm text-text-secondary">Creates a single, immutable source of truth by securing real-time sensor data on a decentralized ledger.</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="inline-block bg-green-100 p-3 rounded-full mb-4">
+                            <i data-lucide="qr-code" class="w-8 h-8 text-green-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Farm-to-Consumer QR Traceability</h3>
+                        <p class="text-sm text-text-secondary">Empowers consumers with a simple QR scan to access the entire verified journey of their milk, building unprecedented trust.</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="inline-block bg-yellow-100 p-3 rounded-full mb-4">
+                            <i data-lucide="pie-chart" class="w-8 h-8 text-yellow-500"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Data-Driven Optimization</h3>
+                        <p class="text-sm text-text-secondary">Aggregates data for predictive alerts, route optimization, and provides a dashboard for FSSAI compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Measurable Impact Section -->
+        <section id="impact" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Measurable Impact</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">Our system delivers tangible benefits, enhancing safety, empowering farmers, and reducing waste.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="grid grid-cols-2 gap-8 text-center" data-aos="fade-right">
+                        <!-- Counters - Colors and Data now match the Key Results bar -->
+                        <div><p class="text-4xl md:text-5xl font-bold text-sky-500" data-counter="120">0</p><p class="mt-2 text-text-secondary">Milk Samples Tested</p></div>
+                        <div><p class="text-4xl md:text-5xl font-bold text-green-500" data-counter="20">0</p><p class="mt-2 text-text-secondary">Verified Farmers</p></div>
+                        <div><p class="text-4xl md:text-5xl font-bold text-green-500" data-counter="95">0</p><p class="mt-2 text-text-secondary">Quality Test Accuracy (%)</p></div>
+                        <div><p class="text-4xl md:text-5xl font-bold text-red-500" data-counter="80">0</p><p class="mt-2 text-text-secondary">Spoilage Reduction (%)</p></div>
+                    </div>
+                    <!-- Charts -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-left">
+                        <div class="bg-white p-6 rounded-lg border border-border-color shadow-lg"><canvas id="impactChart"></canvas></div>
+                        <div class="bg-white p-6 rounded-lg border border-border-color shadow-lg"><canvas id="beforeAfterChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development Overview Section -->
+        <!-- THIS SECTION HAS BEEN MOVED UP -->
+
+        <!-- Collaboration & Recognition Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6 space-y-20">
+                <!-- Collaboration -->
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                     <div class="abstract-bg rounded-lg shadow-lg p-8 flex items-center justify-center min-h-[300px] md:min-h-[400px]" data-aos="fade-right">
+                         <div class="text-center">
+                             <div class="inline-block bg-green-100 p-4 rounded-full">
+                                 <i data-lucide="handshake" class="w-16 h-16 text-green-500"></i>
+                             </div>
+                             <h3 class="mt-4 text-xl font-bold text-text-primary">Driving Rural Innovation</h3>
+                             <p class="text-text-secondary mt-2">In partnership with the Centre of Excellence in Dairy, Baramati.</p>
+                         </div>
+                     </div>
+                    <div data-aos="fade-left">
+                        <h2 class="text-3xl font-bold font-montserrat text-slate-800 mb-6">Collaboration & Impact</h2>
+                        <p class="text-text-secondary mb-6 leading-relaxed">In partnership with the <strong class="text-sky-500">Centre of Excellence in Dairy, Baramati</strong>, DudhAmrut is driving rural innovation. Our platform ensures fair pricing, enhances consumer safety, reduces wastage, and empowers farming communities through digital transparency.</p>
+                        <div class="flex flex-wrap gap-x-8 gap-y-4 text-lg"> <!-- Increased gap and font size -->
+                            <span class="flex items-center"><i data-lucide="dollar-sign" class="w-5 h-5 mr-2 text-green-500"></i>Fair Pricing</span>
+                            <span class="flex items-center"><i data-lucide="shield" class="w-5 h-5 mr-2 text-sky-500"></i>Consumer Safety</span>
+                            <span class="flex items-center"><i data-lucide="recycle" class="w-5 h-5 mr-2 text-yellow-500"></i>Reduced Wastage</span>
+                            <span class="flex items-center"><i data-lucide="users" class="w-5 h-5 mr-2 text-green-500"></i>Rural Empowerment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research & SDG Alignment Section -->
+        <section id="research-sdg" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Research & SDG Alignment</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">Our project is grounded in research and aligned with global sustainable development goals.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="award-badge flex flex-col items-center justify-center text-center p-6 rounded-lg h-full" data-aos="fade-up" data-aos-delay="0">
+                        <i data-lucide="heart-pulse" class="w-12 h-12 text-red-500 mb-3 transition"></i>
+                        <h3 class="font-semibold">SDG 3: Good Health</h3>
+                        <p class="text-sm award-badge-text text-text-secondary mt-1">Ensuring safe, unadulterated milk for consumer well-being.</p>
+                    </div>
+                    <div class="award-badge flex flex-col items-center justify-center text-center p-6 rounded-lg h-full" data-aos="fade-up" data-aos-delay="100">
+                        <i data-lucide="bar-chart-3" class="w-12 h-12 text-sky-500 mb-3 transition"></i>
+                        <h3 class="font-semibold">SDG 8: Decent Work</h3>
+                        <p class="text-sm award-badge-text text-text-secondary mt-1">Promoting fair pricing and economic growth for farmers.</p>
+                    </div>
+                    <div class="award-badge flex flex-col items-center justify-center text-center p-6 rounded-lg h-full" data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="recycle" class="w-12 h-12 text-green-500 mb-3 transition"></i>
+                        <h3 class="font-semibold">SDG 12: Responsible Consumption</h3>
+                        <p class="text-sm award-badge-text text-text-secondary mt-1">Reducing spoilage and creating a sustainable supply chain.</p>
+                    </div>
+                    <div class="award-badge flex flex-col items-center justify-center text-center p-6 rounded-lg h-full" data-aos="fade-up" data-aos-delay="300">
+                        <i data-lucide="clipboard-check" class="w-12 h-12 text-yellow-500 mb-3 transition"></i>
+                        <h3 class="font-semibold">FSSAI Validation</h3>
+                        <p class="text-sm award-badge-text text-text-secondary mt-1">System built to meet and exceed FSSAI quality standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Scope Section -->
+        <section id="future" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Future Scope & Sustainability</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">Our vision extends beyond today. We are building a platform for the future of the dairy industry.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="0"><div class="inline-block bg-sky-100 p-3 rounded-full mb-4"><i data-lucide="globe" class="w-8 h-8 text-sky-500"></i></div><h3 class="font-bold text-lg mb-2">Nationwide Scalability</h3><p class="text-sm text-text-secondary">Expanding our network to cover dairy cooperatives across India.</p></div>
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="100"><div class="inline-block bg-green-100 p-3 rounded-full mb-4"><i data-lucide="line-chart" class="w-8 h-8 text-green-500"></i></div><h3 class="font-bold text-lg mb-2">Predictive Analytics</h3><p class="text-sm text-text-secondary">Predicting yield, cattle health, and feed optimization.</p></div>
+                    <div class="feature-card rounded-xl p-6" data-aos="fade-up" data-aos-delay="200"><div class="inline-block bg-yellow-100 p-3 rounded-full mb-4"><i data-lucide="truck" class="w-8 h-8 text-yellow-500"></i></div><h3 class="font-bold text-lg mb-2">Cold Chain Integration</h3><p class="text-sm text-text-secondary">Monitoring the entire cold chain to reduce spoilage.</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Team Section -->
+        <section id="team" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-3xl font-bold font-montserrat text-slate-800">Meet the Innovators</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-text-secondary">The passionate minds dedicated to reshaping the dairy industry.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <div class="team-card text-center" data-aos="fade-up">
+                        <img src="new.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/300x300/E2E8F0/475569?text=SS';" alt="Team Member Shubham Salunke" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg border-4 border-white">
+                        <h3 class="font-bold text-lg">Shubham Salunke</h3>
+                        <p class="font-medium" style="color: var(--sky-blue);">Team Leader</p>
+                    </div>
+
+                    <div class="team-card text-center" data-aos="fade-up" data-aos-delay="100">
+                        <img src="one.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/300x300/E2E8F0/475569?text=SB';" alt="Team Member Sakshi Bhosale" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg border-4 border-white">
+                        <h3 class="font-bold text-lg">Sakshi Bhosale</h3>
+                        <p class="font-medium" style="color: var(--sky-blue);">Team Member</p>
+                    </div>
+
+                    <div class="team-card text-center" data-aos="fade-up" data-aos-delay="200">
+                        <img src="two.jpeg" onerror="this.onerror=null;this.src='https://placehold.co/300x300/E2E8F0/475569?text=DN';" alt="Team Member Dnyaneshwari Nalage" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg border-4 border-white">
+                        <h3 class="font-bold text-lg">Dnyaneshwari Nalage</h3>
+                        <p class="font-medium" style="color: var(--sky-blue);">Team Member</p>
+                    </div>
+
+                    <div class="team-card text-center" data-aos="fade-up" data-aos-delay="300">
+                        <img src="three.png" onerror="this.onerror=null;this.src='https://placehold.co/300x300/E2E8F0/475569?text=AA';" alt="Team Member Amruta Adling" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg border-4 border-white">
+                        <h3 class="font-bold text-lg">Amruta Adling</h3>
+                        <p class="font-medium" style="color: var(--sky-blue);">Team Member</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Demo Section -->
+        <section id="demo" class="py-20 bg-white">
+             <div class="container mx-auto px-6 text-center" data-aos="fade-up">
+                 <h2 class="text-3xl font-bold font-montserrat text-slate-800">Experience DudhAmrut</h2>
+                 <p class="mt-4 max-w-2xl mx-auto text-text-secondary">See our technology in action. Explore the interactive prototype or watch a video walkthrough of our system.</p>
+                 <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                     <a href="https://youtu.be/1FExOaAI4NA?si=W6je5QBtiLzgF0F_" target="_blank" class="text-white font-semibold px-8 py-3 rounded-full transition-transform hover:scale-105 shadow-lg glow-button flex items-center gap-2 bg-sky-500"><i data-lucide="play-circle"></i>Watch Video</a>
+                     <a href="prototype.html" class="bg-slate-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-slate-700 transition-transform hover:scale-105 flex items-center gap-2"><i data-lucide="layout-dashboard"></i>View Prototype</a>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Conclusion Banner -->
+        <section class="py-16 gradient-banner">
+            <div class="container mx-auto px-6 text-center" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold font-montserrat text-white leading-tight">
+                    DudhAmrut: Ensuring safe, transparent, and sustainable milk for all.
+                </h2>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex flex-col items-center space-y-4">
+                <a href="#" class="flex items-center space-x-2">
+                    <i data-lucide="droplets" class="w-6 h-6 text-sky-400"></i>
+                    <h1 class="text-xl font-bold font-montserrat">DudhAmrut</h1>
+                </a>
+                <p class="text-sm text-slate-400 max-w-lg">IoT & Blockchain for a purer, more transparent, and safer dairy supply chain.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-400 hover:text-sky-400 transition"><i data-lucide="github" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-sky-400 transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-slate-700 pt-6">
+                <p class="text-sm text-slate-500">&copy; 2025 DudhAmrut. All rights reserved. Built for Avishkar 2025.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Quick-Nav Button -->
+    <div class="quick-nav group">
+        <!-- The Menu -->
+        <div class="quick-nav-menu w-48 bg-white rounded-lg shadow-xl border border-border-color overflow-hidden">
+            <a href="#problem" class="block px-4 py-3 text-sm font-medium text-text-secondary hover:bg-slate-50 hover:text-sky-500 transition-colors duration-200">Problem Statement</a>
+            <a href="#features" class="block px-4 py-3 text-sm font-medium text-text-secondary hover:bg-slate-50 hover:text-sky-500 transition-colors duration-200">Key Features</a>
+            <a href="#impact" class="block px-4 py-3 text-sm font-medium text-text-secondary hover:bg-slate-50 hover:text-sky-500 transition-colors duration-200">Measurable Impact</a>
+            <a href="#future" class="block px-4 py-3 text-sm font-medium text-text-secondary hover:bg-slate-50 hover:text-sky-500 transition-colors duration-200">Future Scope</a>
+        </div>
+        <!-- The Button -->
+        <button class="text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center glow-button transition-transform group-hover:scale-105 bg-sky-500">
+            <i data-lucide="navigation" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide Icons
+            lucide.createIcons();
+
+            // Initialize AOS (Animate on Scroll)
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+            });
+
+            // Core Values Tab Logic
+            const tabs = document.querySelectorAll('.tab-card');
+            const contentPanes = document.querySelectorAll('.tab-pane');
+            const missionContent = document.getElementById('content-mission'); // The default content
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.dataset.tabTarget;
+                    const targetPane = document.getElementById(targetId);
+
+                    // If this tab is already active, deactivate it and show mission content
+                    if (tab.classList.contains('tab-active')) {
+                        tab.classList.remove('tab-active');
+                        if (targetPane) {
+                            targetPane.classList.add('hidden');
+                        }
+                        missionContent.classList.remove('hidden');
+                        lucide.createIcons(); // Re-init icons
+                    } else {
+                        // Deactivate all other tabs and hide all panes
+                        tabs.forEach(t => t.classList.remove('tab-active'));
+                        contentPanes.forEach(p => p.classList.add('hidden'));
+                        
+                        // Activate the clicked tab and show its content
+                        tab.classList.add('tab-active');
+                        if (targetPane) {
+                            targetPane.classList.remove('hidden');
+                            lucide.createIcons(); // Re-init icons for new pane
+                        }
+                    }
+                });
+            });
+
+            // NEW: Problem Card Accordion Logic
+            const problemCards = document.querySelectorAll('.problem-card');
+            problemCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Check if the clicked card is already active
+                    const isAlreadyActive = card.classList.contains('active');
+
+                    // Remove 'active' from all cards
+                    problemCards.forEach(c => {
+                        c.classList.remove('active');
+                        const icon = c.querySelector('.toggle-icon');
+                        if (icon) {
+                            icon.setAttribute('data-lucide', 'plus');
+                        }
+                    });
+
+                    // If the clicked card was NOT already active, make it active
+                    if (!isAlreadyActive) {
+                        card.classList.add('active');
+                        const icon = card.querySelector('.toggle-icon');
+                        if (icon) {
+                            icon.setAttribute('data-lucide', 'minus');
+                        }
+                    }
+
+                    // Re-render all icons
+                    lucide.createIcons();
+                });
+            });
+            // END: Problem Card Accordion Logic
+
+            // Register Chart.js Datalabels Plugin
+            Chart.register(ChartDataLabels);
+
+            // Counter Animation Logic
+            const animateCounter = (el) => {
+                const finalValue = parseFloat(el.getAttribute('data-counter'));
+                const isFloat = finalValue % 1 !== 0;
+                const duration = 1500;
+                let startTimestamp = null;
+
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    let currentValue = progress * finalValue;
+
+                    if (isFloat) {
+                        el.textContent = currentValue.toFixed(1);
+                    } else {
+                        el.textContent = Math.floor(currentValue);
+                    }
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            };
+
+            // Setup Intersection Observer for counters
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counterElements = entry.target.querySelectorAll('[data-counter]');
+                        counterElements.forEach(animateCounter);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            // Observe the impact section
+            const impactSection = document.getElementById('impact');
+            if (impactSection) {
+                observer.observe(impactSection);
+            }
+
+            // Chart.js - Impact Chart (Doughnut)
+            const ctxImpact = document.getElementById('impactChart');
+            if (ctxImpact) {
+                new Chart(ctxImpact, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Adulteration Detected', 'Purity Rate'],
+                        datasets: [{
+                            data: [5, 95], // Synced with 95% accuracy
+                            backgroundColor: [
+                                'rgb(239, 68, 68)', // var(--red)
+                                'rgb(44, 123, 229)' // var(--sky-blue)
+                            ],
+                            hoverOffset: 4,
+                            borderWidth: 0,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Projected Purity Rate (%)',
+                                font: { size: 14, weight: '600' },
+                                color: '#475569',
+                                padding: { bottom: 10 }
+                            },
+                            datalabels: {
+                                display: true,
+                                color: 'white', // Set text color to white
+                                font: {
+                                    weight: 'bold',
+                                    size: 14
+                                },
+                                formatter: (value) => value + '%',
+                                display: (context) => {
+                                    return context.dataset.data[context.dataIndex] > 3; // Only show if > 3%
+                                }
+                            }
+                        },
+                    }
+                });
+            }
+
+            // Chart.js - Before/After Chart (Doughnut) - REVISED
+            const ctxBeforeAfter = document.getElementById('beforeAfterChart');
+            if (ctxBeforeAfter) {
+                new Chart(ctxBeforeAfter, {
+                    type: 'doughnut', // Changed to doughnut
+                    data: {
+                        labels: ['Spoilage Reduced', 'Remaining Spoilage'], // New labels
+                        datasets: [{
+                            data: [80, 20], // New 80/20 data
+                            backgroundColor: [
+                                'rgba(0, 196, 140, 0.8)',  // var(--green) for Reduced
+                                'rgba(255, 209, 102, 0.8)' // var(--yellow) for Remaining
+                            ],
+                            hoverOffset: 4,
+                            borderWidth: 0,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Projected Spoilage (%)', // Title as requested
+                                font: { size: 14, weight: '600' },
+                                color: '#475569',
+                                padding: { bottom: 10 }
+                            },
+                            legend: {
+                                position: 'bottom', // Match other chart
+                            },
+                            datalabels: {
+                                display: true,
+                                color: (context) => {
+                                     // Use dark text on the light yellow slice
+                                     return context.dataIndex === 1 ? '#475569' : 'white';
+                                },
+                                font: {
+                                    weight: 'bold',
+                                    size: 14
+                                },
+                                formatter: (value) => value + '%',
+                                display: (context) => {
+                                    return context.dataset.data[context.dataIndex] > 3;
+                                }
+                            }
+                        }
+                        // Removed the 'scales' object
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
